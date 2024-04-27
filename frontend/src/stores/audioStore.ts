@@ -80,6 +80,11 @@ export const useAudioStore = defineStore('audio', () => {
   }
 
   const saveRecording = async () => {
+    const opt = document.querySelector('#output')
+    if (opt) {
+      opt.textContent = ''
+    }
+
     if (!actualRecord.value) return
 
     try {
@@ -93,7 +98,7 @@ export const useAudioStore = defineStore('audio', () => {
       console.log(sum)
       new TypeIt('#output', {
         strings: sum.split('\n'),
-        speed: 25,
+        speed: 10,
         waitUntilVisible: true
       }).go()
       actualAudio.value!.summary = sum
@@ -104,7 +109,7 @@ export const useAudioStore = defineStore('audio', () => {
     }
 
     audios.value.push(actualAudio.value as Audio)
-    discardActual()
+    // discardActual()
   }
 
   const reproduceActual = () => {
