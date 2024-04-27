@@ -3,9 +3,22 @@ import { Button } from '@/components/ui/button'
 
 let mediaRecorder
 
+let audios = []
+
 function escuchar() {
   InicializarRecording()
   console.log('recorder started')
+}
+
+function enviarAudio(blob) {
+  const formData = new FormData()
+  formData.append('audio-file', blob)
+  fetch('http://localhost:3000/procesar', {
+    method: 'POST',
+    body: formData
+  }).then((response) => {
+    console.log(response)
+  })
 }
 
 function InicializarRecording() {
@@ -26,9 +39,10 @@ function InicializarRecording() {
         let chunks = []
 
         mediaRecorder.onstop = (e) => {
-          const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' })
-          new Audio(URL.createObjectURL(blob)).play()
-          const audioURL = window.URL.createObjectURL(blob)
+          const blob = new Blob(chunks, { type: 'audio/mp3; codecs=opus' })
+          enviarAudio(blob)
+          //   new Audio(URL.createObjectURL(blob)).play()
+          //   const audioURL = window.URL.createObjectURL(blob)
         }
 
         mediaRecorder.ondataavailable = (e) => {
