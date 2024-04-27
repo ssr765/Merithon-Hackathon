@@ -1,16 +1,28 @@
 <script lang="ts" setup>
 import { Button } from '@/components/ui/button'
-
+import { ref } from 'vue'
 let mediaRecorder
 
-let audios = []
-
+let audios = ref([])
 function escuchar() {
   InicializarRecording()
   console.log('recorder started')
 }
+function playAudio(audio) {
+  console.log(audio)
+  audio.audioObject.play()
+}
+function reiniciarAudio(audio) {
+  console.log('reiniciar')
+  audio.audioObject.currentTime = 0
+  audio.audioObject.pause()
+}
+function pauseAudio(audio) {
+  console.log('pause')
+  audio.audioObject.pause()
+}
 
-function enviarAudio(blob) {
+function procesarAudio(blob) {
   console.log('enviar')
   const formData = new FormData()
   formData.append('audio-file', blob)
@@ -41,8 +53,13 @@ function InicializarRecording() {
 
         mediaRecorder.onstop = (e) => {
           const blob = new Blob(chunks, { type: 'audio/mp3; codecs=opus' })
-          enviarAudio(blob)
-          //   new Audio(URL.createObjectURL(blob)).play()
+          let audioObject = new Audio(URL.createObjectURL(blob))
+          let blobDict = {
+            audio: blob,
+            audioObject: audioObject
+          }
+          audios.value.push(blobDict)
+          console.log(audios)
           //   const audioURL = window.URL.createObjectURL(blob)
         }
 
@@ -69,7 +86,12 @@ function pararRecording() {
 </script>
 
 <template>
-  <h1>Test</h1>
+  <div v-for="audio in audios">
+    <p>Audio X</p>
+    <Button @click="playAudio(audio)">Play</Button>
+    <Button @click="pauseAudio(audio)">Pausar</Button>
+    <Button @click="reiniciarAudio(audio)">Reiniciar </Button>
+  </div>
   <Button @click="escuchar">Escuhar</Button>
-  <Button @click="pararRecording">Parar</Button>
+  <Button @click="pararRecording">Parar </Button>
 </template>
