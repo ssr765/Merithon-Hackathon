@@ -7,7 +7,7 @@
   "version": "1.0.0",
   "main": "API.js",
   "scripts": {
-    "start": "nodemon API.js"
+    "start": "node API.js"
   },
   "keywords": [],
   "author": "",
