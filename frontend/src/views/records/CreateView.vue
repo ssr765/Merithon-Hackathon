@@ -111,7 +111,7 @@ const audioStore = useAudioStore()
         </span>
       </Badge>
       <div class="flex-1">
-        <div id="output"></div>
+        <div id="output" class="p-8"></div>
       </div>
       <div class="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring">
         <div class="flex items-center p-3">
