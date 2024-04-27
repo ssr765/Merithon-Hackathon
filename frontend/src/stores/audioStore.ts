@@ -19,6 +19,7 @@ export const useAudioStore = defineStore('audio', () => {
   const actualRecord = ref<Blob | null>(null)
   const actualAudio = ref<Audio | null>(null)
   const audioSummary = ref('')
+  const summaryMode = ref<string>('resumen')
 
   let interval: any = null
   const toggleRecording = () => {
@@ -82,12 +83,14 @@ export const useAudioStore = defineStore('audio', () => {
 
     try {
       const fd = new FormData()
+      fd.append('mode', summaryMode.value)
       fd.append('audio', actualRecord.value, 'audio.ogg')
       const response = await axios.post('http://localhost:3000/api/procesar', fd)
       console.log(response)
       const sum = response.data.summary
+      console.log(sum)
       new TypeIt('#output', {
-        strings: sum,
+        strings: sum.split('\n'),
         speed: 50,
         waitUntilVisible: true
       }).go()
@@ -158,6 +161,7 @@ export const useAudioStore = defineStore('audio', () => {
     discardActual,
     audioSummary,
     visualizeSummary,
-    play
+    play,
+    summaryMode
   }
 })

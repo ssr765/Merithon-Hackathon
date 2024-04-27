@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Play, Pause, Bird, Rabbit, Turtle, Circle, Square, Mic, Trash2 } from 'lucide-vue-next'
+import { Play, Pause, Bird, Rabbit, Turtle, Circle, Square, Mic, Trash2, ListChecks, ALargeSmall, ScrollText } from 'lucide-vue-next'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -18,86 +18,49 @@ const audioStore = useAudioStore()
     <div class="relative hidden flex-col items-start gap-8 md:flex">
       <form class="grid w-full items-start gap-6">
         <fieldset class="grid gap-6 rounded-lg border p-4">
-          <legend class="-ml-1 px-1 text-sm font-medium">Settings</legend>
+          <legend class="-ml-1 px-1 text-sm font-medium">Modo de resumen</legend>
           <div class="grid gap-3">
-            <Label for="model">Model</Label>
-            <Select>
+            <!-- <Label for="model">Modo de resumen</Label> -->
+            <Select v-model="audioStore.summaryMode">
               <SelectTrigger id="model" class="items-start [&_[data-description]]:hidden">
-                <SelectValue placeholder="Select a model" />
+                <SelectValue placeholder="Modo de resumen" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="genesis">
+                <SelectItem value="resumen">
                   <div class="flex items-start gap-3 text-muted-foreground">
-                    <Rabbit class="size-5" />
+                    <ALargeSmall class="size-5" />
                     <div class="grid gap-0.5">
                       <p>
-                        Neural
-                        <span class="font-medium text-foreground"> Genesis </span>
+                        <span class="font-medium text-foreground"> Resumen de la reunión </span>
                       </p>
-                      <p class="text-xs" data-description>Our fastest model for general use cases.</p>
+                      <p class="text-xs" data-description>Respuesta formal y estructurada.</p>
                     </div>
                   </div>
                 </SelectItem>
-                <SelectItem value="explorer">
+                <SelectItem value="puntos">
                   <div class="flex items-start gap-3 text-muted-foreground">
-                    <Bird class="size-5" />
+                    <ListChecks class="size-5" />
                     <div class="grid gap-0.5">
                       <p>
-                        Neural
-                        <span class="font-medium text-foreground"> Explorer </span>
+                        <span class="font-medium text-foreground"> Resumen por puntos </span>
                       </p>
-                      <p class="text-xs" data-description>Performance and speed for efficiency.</p>
+                      <p class="text-xs" data-description>Pinceladas superficiales indicando los puntos importantes.</p>
                     </div>
                   </div>
                 </SelectItem>
-                <SelectItem value="quantum">
+                <SelectItem value="coloquial">
                   <div class="flex items-start gap-3 text-muted-foreground">
-                    <Turtle class="size-5" />
+                    <ScrollText class="size-5" />
                     <div class="grid gap-0.5">
                       <p>
-                        Neural
-                        <span class="font-medium text-foreground"> Quantum </span>
+                        <span class="font-medium text-foreground"> Resumen coloquial </span>
                       </p>
-                      <p class="text-xs" data-description>The most powerful model for complex computations.</p>
+                      <p class="text-xs" data-description>Texto más extendido pero explicado de una forma menos técnica.</p>
                     </div>
                   </div>
                 </SelectItem>
               </SelectContent>
             </Select>
-          </div>
-          <div class="grid gap-3">
-            <Label for="temperature">Temperature</Label>
-            <Input id="temperature" type="number" placeholder="0.4" />
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="grid gap-3">
-              <Label for="top-p">Top P</Label>
-              <Input id="top-p" type="number" placeholder="0.7" />
-            </div>
-            <div class="grid gap-3">
-              <Label for="top-k">Top K</Label>
-              <Input id="top-k" type="number" placeholder="0.0" />
-            </div>
-          </div>
-        </fieldset>
-        <fieldset class="grid gap-6 rounded-lg border p-4">
-          <legend class="-ml-1 px-1 text-sm font-medium">Messages</legend>
-          <div class="grid gap-3">
-            <Label for="role">Role</Label>
-            <Select default-value="system">
-              <SelectTrigger>
-                <SelectValue placeholder="Select a role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="system"> System </SelectItem>
-                <SelectItem value="user"> User </SelectItem>
-                <SelectItem value="assistant"> Assistant </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div class="grid gap-3">
-            <Label for="content">Content</Label>
-            <Textarea id="content" placeholder="You are a..." class="min-h-[9.5rem]" />
           </div>
         </fieldset>
       </form>

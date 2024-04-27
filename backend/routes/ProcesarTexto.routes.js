@@ -24,7 +24,18 @@ const upload = multer({
   }),
 });
 
+const promptVariants = {
+  resumen:
+    "de una manera clara y concisa para dejar claro todo lo que se ha dicho en la reunión.",
+  puntos:
+    "con lo que se ha mencionado en formato de apartados más importantes y además vas a tener que describir cada uno de estos puntos pero sin excederte demasiado, como máximo en 100 palabras y expresando todo esto de manera clara y concisa",
+  coloquial:
+    "de manera que se exprese todo lo que se ha querido decir en la reunión sin tecnicismos y con vocabulario facilmente entendible para todo el mundo.",
+};
+
 module.exports = router.post("/procesar", upload.any(), async (req, res) => {
+  // get formdata params
+  const { mode } = req.body;
   const transcription = await openai.audio.transcriptions.create({
     file: fs.createReadStream("upload/audio.ogg"),
     model: "whisper-1",
@@ -32,14 +43,17 @@ module.exports = router.post("/procesar", upload.any(), async (req, res) => {
 
   console.log(transcription.text);
 
-  const sysPrompt =
-    "Make a summary in spanish of this meeting using a list format, highligh the key points using a maximum of 10:";
+  const basePrompt = `Eres un asistente espectador de la reunión que escucha todo lo que se ha dicho en la misma, tú función es resumir la reunión ${promptVariants[mode]}. No incluyas información que no se haya mencionado en la reunión. La reunión que debes resumir es la siguiente: `;
   const completion = await openai.chat.completions.create({
     messages: [
-      { role: "system", content: "You are a helpful assistant who is a very capable meeting summarizer" },
+      {
+        role: "system",
+        content:
+          "You are a helpful spanish assistant who is a very capable meeting summarizer",
+      },
       {
         role: "user",
-        content: sysPrompt + transcription.text,
+        content: basePrompt + transcription.text,
       },
     ],
     model: "gpt-3.5-turbo",
