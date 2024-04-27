@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Bird, Book, Bot, Code2, LifeBuoy, Rabbit, Settings, Settings2, Share, SquareTerminal, SquareUser, Triangle, Turtle } from 'lucide-vue-next'
+import { Bird, LifeBuoy, Rabbit, Settings, Share, SquareUser, Triangle, Turtle, Mic, Folder } from 'lucide-vue-next'
 
 import { Button } from '@/components/ui/button'
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
@@ -18,21 +18,17 @@ import { Textarea } from '@/components/ui/textarea'
         </Button>
       </div>
       <nav class="grid gap-1 p-2">
-        <Button variant="ghost" size="icon" class="rounded-lg bg-muted" aria-label="Playground">
-          <SquareTerminal class="size-5" />
-        </Button>
-        <Button variant="ghost" size="icon" class="rounded-lg" aria-label="Models">
-          <Bot class="size-5" />
-        </Button>
-        <Button variant="ghost" size="icon" class="rounded-lg" aria-label="API">
-          <Code2 class="size-5" />
-        </Button>
-        <Button variant="ghost" size="icon" class="rounded-lg" aria-label="Documentation">
-          <Book class="size-5" />
-        </Button>
-        <Button variant="ghost" size="icon" class="rounded-lg" aria-label="Settings">
-          <Settings2 class="size-5" />
-        </Button>
+        <RouterLink :to="{ name: 'records-create' }" exact-active-class="bg-muted rounded-lg">
+          <Button variant="ghost" size="icon" class="rounded-lg" aria-label="Playground">
+            <Mic class="size-5" />
+          </Button>
+        </RouterLink>
+
+        <RouterLink :to="{ name: 'records' }" exact-active-class="bg-muted rounded-lg">
+          <Button variant="ghost" size="icon" class="rounded-lg" aria-label="Models">
+            <Folder class="size-5" />
+          </Button>
+        </RouterLink>
       </nav>
       <nav class="mt-auto grid gap-1 p-2">
         <Button variant="ghost" size="icon" class="mt-auto rounded-lg" aria-label="Help">

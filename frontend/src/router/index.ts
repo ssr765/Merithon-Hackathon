@@ -14,9 +14,14 @@ const router = createRouter({
           component: () => import('@/views/HomeView.vue')
         },
         {
-          path: 'record',
-          name: 'record',
-          component: () => import('@/views/RecordView.vue')
+          path: 'records',
+          name: 'records',
+          component: () => import('@/views/records/IndexView.vue')
+        },
+        {
+          path: 'records/create',
+          name: 'records-create',
+          component: () => import('@/views/records/CreateView.vue')
         }
       ]
     }

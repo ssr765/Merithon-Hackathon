@@ -1,4 +1,3 @@
-
 const express = require("express");
 const cors = require("cors");
 const ProcesarTexto = require("./routes/ProcesarTexto.routes");
@@ -9,12 +8,14 @@ const app = express();
 const port = 3000;
 
 
+
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(bodyParser.json());
 
 // routes 
+
 app.use("/api", ProcesarTexto);
 
 console.log("##### RUTAS #####");
