@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Play, Pause, Bird, Rabbit, Turtle, Circle } from 'lucide-vue-next'
+import { Play, Pause, Bird, Rabbit, Turtle, Circle, Square, Mic, Trash2 } from 'lucide-vue-next'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -110,21 +110,39 @@ const audioStore = useAudioStore()
           <p>Recording</p>
         </span>
       </Badge>
-      <div class="flex-1" />
+      <div class="flex-1">
+        <div id="output"></div>
+      </div>
       <div class="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring">
         <div class="flex items-center p-3">
           <Button v-if="!audioStore.recording" @click="audioStore.toggleRecording()" variant="ghost" size="icon">
-            <Play class="size-4" />
+            <Mic class="size-4" />
           </Button>
           <Button v-else @click="audioStore.toggleRecording()" variant="ghost" size="icon">
-            <Pause class="size-4" />
+            <Square class="size-4" />
           </Button>
 
           <p>{{ audioStore.recordTime }}</p>
 
-          <Button v-if="audioStore.haveRecordedAudio" @click="audioStore.reproducir()" variant="ghost" size="icon"> <Play class="size-4" /> (REPRODUCIR AUDIO) </Button>
+          <div v-if="audioStore.actualAudio" class="flex items-center gap-4 ml-8">
+            <p>Grabación actual</p>
+            <div>
+              <Button v-if="!audioStore.actualAudio.isPlaying" @click="audioStore.reproduceActual()" variant="ghost" size="icon">
+                <Play class="size-4" />
+              </Button>
+              <Button v-else @click="audioStore.pauseActual()" variant="ghost" size="icon">
+                <Pause class="size-4" />
+              </Button>
+              <Button @click="audioStore.stopActual()" variant="ghost" size="icon">
+                <Square class="size-4" />
+              </Button>
+              <Button @click="audioStore.discardActual()" class="text-red-500" variant="ghost" size="icon">
+                <Trash2 class="size-4" />
+              </Button>
+            </div>
+          </div>
 
-          <Button type="submit" size="sm" class="ml-auto gap-1.5"> Procesar grabación </Button>
+          <Button type="submit" size="sm" class="ml-auto gap-1.5" @click="audioStore.saveRecording()"> Procesar grabación </Button>
         </div>
       </div>
     </div>

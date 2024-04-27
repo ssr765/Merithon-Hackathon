@@ -4,10 +4,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from './ui/button'
 import { Audio } from '@/models/Audio'
 import { Progress } from '@/components/ui/progress'
+import type { PropType } from 'vue'
 
 defineProps({
   audio: {
-    type: () => Object as Audio,
+    type: Object as PropType<Audio>,
     required: true
   }
 })
@@ -16,8 +17,8 @@ defineProps({
 <template>
   <Card>
     <CardHeader class="pb-4">
-      <CardTitle>Grabación #001</CardTitle>
-      <CardDescription>10:00</CardDescription>
+      <CardTitle>Grabación #00{{ audio.id }}</CardTitle>
+      <CardDescription>{{ audio.duration }}</CardDescription>
     </CardHeader>
     <CardContent>
       <div class="flex gap-4 items-center">

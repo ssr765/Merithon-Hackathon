@@ -20,12 +20,14 @@ const audioStore = useAudioStore()
       <form class="grid w-full items-start gap-6">
         <fieldset class="grid gap-6 rounded-lg border p-4">
           <legend class="-ml-1 px-1 text-sm font-medium">Audios</legend>
-          <RecordComponent v-for="audio in audioStore.audios" :key="audioStore.audios.indexOf(audio)" />
+          <RecordComponent v-for="audio in audioStore.audios" :key="audio.id" :audio="audio" @click="audioStore.audioSummary = audio.summary" />
         </fieldset>
       </form>
     </div>
     <div class="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2">
-      <div class="flex-1" />
+      <div class="flex-1">
+        {{ audioStore.audioSummary }}
+      </div>
       <div class="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring"></div>
     </div>
   </main>

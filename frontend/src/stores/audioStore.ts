@@ -1,8 +1,10 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import axios from 'axios'
 
 import { useTimeFormatter } from '@/composables/timeFormatter'
 import type { Audio } from '@/models/Audio'
+import TypeIt from 'typeit'
 
 export const useAudioStore = defineStore('audio', () => {
   const { format } = useTimeFormatter()
@@ -11,9 +13,12 @@ export const useAudioStore = defineStore('audio', () => {
   const recordSeconds = ref(0)
   const recordTime = computed(() => format(recordSeconds.value))
   const mediaRecorder = ref<MediaRecorder | null>(null)
-  const audioBlob = ref<Blob | null>(null)
-  const haveRecordedAudio = computed(() => audioBlob.value !== null)
-  const audios = ref<Audio[]>([{}, {}, {}])
+  const haveRecordedAudio = computed(() => actualRecord.value !== null)
+  const audios = ref<Audio[]>([])
+  const player = ref<HTMLAudioElement | null>(null)
+  const actualRecord = ref<Blob | null>(null)
+  const actualAudio = ref<Audio | null>(null)
+  const audioSummary = ref('')
 
   let interval: any = null
   const toggleRecording = () => {
@@ -46,7 +51,14 @@ export const useAudioStore = defineStore('audio', () => {
         }
 
         mediaRecorder.value.onstop = () => {
-          audioBlob.value = new Blob(chunks, { type: 'audio/ogg; codecs=opus' })
+          actualRecord.value = new Blob(chunks, { type: 'audio/ogg; codecs=opus' })
+          actualAudio.value = {
+            id: audios.value.length + 1,
+            blob: URL.createObjectURL(actualRecord.value),
+            audio: new Audio(URL.createObjectURL(actualRecord.value)),
+            duration: recordTime.value,
+            isPlaying: false
+          } as Audio
         }
       } catch (error) {
         console.error(`The following getUserMedia error occurred: ${error}`)
@@ -65,16 +77,66 @@ export const useAudioStore = defineStore('audio', () => {
     console.log('recorder stopped')
   }
 
-  const reproducir = () => {
-    new Audio(URL.createObjectURL(audioBlob.value!)).play()
+  const saveRecording = async () => {
+    if (!actualRecord.value) return
+
+    try {
+      const response = await axios.post('http://localhost:3000/api/procesar')
+      console.log(response)
+      const sum = response.data.summary
+      new TypeIt('#output', {
+        strings: sum,
+        speed: 50,
+        waitUntilVisible: true
+      }).go()
+    } catch (error) {
+      console.error(error)
+    }
+
+    audios.value.push(actualAudio.value as Audio)
+    discardActual()
+  }
+
+  const reproduceActual = () => {
+    if (!actualAudio.value) return
+    actualAudio.value.isPlaying = true
+    actualAudio.value.audio.play()
+  }
+
+  const pauseActual = () => {
+    if (!actualAudio.value) return
+    actualAudio.value.isPlaying = false
+    actualAudio.value.audio.pause()
+  }
+
+  const stopActual = () => {
+    if (!actualAudio.value) return
+    actualAudio.value.isPlaying = false
+    actualAudio.value.audio.pause()
+    actualAudio.value.audio.currentTime = 0
+  }
+
+  const discardActual = () => {
+    if (!actualAudio.value) return
+    actualAudio.value.audio.pause()
+    actualAudio.value = null
+    actualRecord.value = null
+    recordSeconds.value = 0
   }
 
   return {
     recording,
     recordTime,
     haveRecordedAudio,
+    actualAudio,
     audios,
+    player,
     toggleRecording,
-    reproducir
+    saveRecording,
+    reproduceActual,
+    pauseActual,
+    stopActual,
+    discardActual,
+    audioSummary
   }
 })
