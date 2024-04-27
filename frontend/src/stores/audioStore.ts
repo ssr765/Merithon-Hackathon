@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 import { useTimeFormatter } from '@/composables/timeFormatter'
+import type { Audio } from '@/models/Audio'
 
 export const useAudioStore = defineStore('audio', () => {
   const { format } = useTimeFormatter()
@@ -12,6 +13,7 @@ export const useAudioStore = defineStore('audio', () => {
   const mediaRecorder = ref<MediaRecorder | null>(null)
   const audioBlob = ref<Blob | null>(null)
   const haveRecordedAudio = computed(() => audioBlob.value !== null)
+  const audios = ref<Audio[]>([{}, {}, {}])
 
   let interval: any = null
   const toggleRecording = () => {
@@ -71,6 +73,7 @@ export const useAudioStore = defineStore('audio', () => {
     recording,
     recordTime,
     haveRecordedAudio,
+    audios,
     toggleRecording,
     reproducir
   }
