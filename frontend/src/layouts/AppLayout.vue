@@ -19,7 +19,7 @@ import { Textarea } from '@/components/ui/textarea'
       </div>
       <nav class="grid gap-1 p-2">
         <RouterLink :to="{ name: 'records-create' }" exact-active-class="bg-muted rounded-lg">
-          <Button variant="ghost" size="icon" class="rounded-lg" aria-label="Playground">
+          <Button variant="ghost" size="icon" class="rounded-lg" aria-label="Meetingthon">
             <Mic class="size-5" />
           </Button>
         </RouterLink>
@@ -41,7 +41,7 @@ import { Textarea } from '@/components/ui/textarea'
     </aside>
     <div class="flex flex-col">
       <header class="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
-        <h1 class="text-xl font-semibold">Playground</h1>
+        <h1 class="text-xl font-semibold">Meetingthon</h1>
         <Drawer>
           <DrawerTrigger as-child>
             <Button variant="ghost" size="icon" class="md:hidden">
