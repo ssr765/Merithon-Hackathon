@@ -11,7 +11,7 @@ const router = createRouter({
         {
           path: '',
           name: 'home',
-          component: () => import('@/views/HomeView.vue')
+          redirect: { name: 'records-create' }
         },
         {
           path: 'records',
