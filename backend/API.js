@@ -11,9 +11,8 @@ const app = express()
 const port = 3000
 
 app.use('/api', ProcesarTexto)
-app.use(cors({origin: 'http://localhost:5173'}))
-
-
+app.use(cors({ origin: 'http://localhost:5173' }))
+app.use(express.json())
 
 
 app.listen(port, () => {
