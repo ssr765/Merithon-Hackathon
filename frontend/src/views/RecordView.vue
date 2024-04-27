@@ -105,7 +105,7 @@ const audioStore = useAudioStore()
     <div class="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2">
       <Badge variant="outline" class="absolute right-3 top-3">
         <span v-if="!audioStore.recording">Idle</span>
-        <span v-else class="uppercase">Recording</span>
+        <span v-else class="uppercase"><span class="text-red-500 mr-2">•</span>Recording</span>
       </Badge>
       <div class="flex-1" />
       <div class="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring">
