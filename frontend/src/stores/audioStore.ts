@@ -81,7 +81,10 @@ export const useAudioStore = defineStore('audio', () => {
     if (!actualRecord.value) return
 
     try {
-      const response = await axios.post('http://localhost:3000/api/procesar')
+      const fd = new FormData()
+      fd.append('foo', 'bar')
+      fd.append('audio', actualRecord.value, 'audio.ogg')
+      const response = await axios.post('http://localhost:3000/api/procesar', fd)
       console.log(response)
       const sum = response.data.summary
       new TypeIt('#output', {
