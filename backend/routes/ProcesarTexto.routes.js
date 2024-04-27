@@ -33,10 +33,10 @@ module.exports = router.post("/procesar", upload.any(), async (req, res) => {
   console.log(transcription.text);
 
   const sysPrompt =
-    "Make a summary of this meeting in a formal tone higlighting the key points in spanish:";
+    "Make a summary in spanish of this meeting using a list format, highligh the key points using a maximum of 10:";
   const completion = await openai.chat.completions.create({
     messages: [
-      { role: "system", content: "You are a helpful assistant." },
+      { role: "system", content: "You are a helpful assistant who is a very capable meeting summarizer" },
       {
         role: "user",
         content: sysPrompt + transcription.text,
