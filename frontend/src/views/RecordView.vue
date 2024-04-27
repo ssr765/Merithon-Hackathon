@@ -119,6 +119,8 @@ const audioStore = useAudioStore()
 
           <p>{{ audioStore.recordTime }}</p>
 
+          <Button v-if="audioStore.haveRecordedAudio" @click="audioStore.reproducir()" variant="ghost" size="icon"> <Play class="size-4" /> (REPRODUCIR AUDIO) </Button>
+
           <Button type="submit" size="sm" class="ml-auto gap-1.5"> Procesar grabación </Button>
         </div>
       </div>
