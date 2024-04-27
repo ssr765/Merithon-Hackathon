@@ -4,10 +4,11 @@ const fs = require("fs");
 const multer = require("multer");
 
 const OpenAI = require("openai");
+require("dotenv").config();
 
 // const OpenAI = require("openai");
 const openai = new OpenAI({
-  apiKey: "sk-proj-hdEFdG5q1WW940Wa7ZcxT3BlbkFJCuBoh1M6G4TaiLuhYk1q",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const upload = multer({
