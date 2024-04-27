@@ -60,6 +60,7 @@ function InicializarRecording() {
           }
           audios.value.push(blobDict)
           console.log(audios)
+          procesarAudio(blob)
           //   const audioURL = window.URL.createObjectURL(blob)
         }
 
