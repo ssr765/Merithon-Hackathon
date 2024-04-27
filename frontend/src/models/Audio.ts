@@ -5,4 +5,5 @@ export interface Audio {
   summary: string
   audio: HTMLAudioElement
   isPlaying: boolean
+  summaryMode: string
 }

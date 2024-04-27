@@ -59,7 +59,8 @@ export const useAudioStore = defineStore('audio', () => {
             blob: URL.createObjectURL(actualRecord.value),
             audio: new Audio(URL.createObjectURL(actualRecord.value)),
             duration: recordTime.value,
-            isPlaying: false
+            isPlaying: false,
+            summaryMode: summaryMode.value
           } as Audio
         }
       } catch (error) {
