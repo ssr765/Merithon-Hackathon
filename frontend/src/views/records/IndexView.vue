@@ -18,7 +18,9 @@ const audioStore = useAudioStore()
     <div class="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2">
       <div class="flex-1">
         <div class="p-8">
-          {{ audioStore.audioSummary }}
+          <p v-for="frase in audioStore.audioSummary.split('\n')" :key="frase">
+            {{ frase }}
+          </p>
         </div>
       </div>
     </div>

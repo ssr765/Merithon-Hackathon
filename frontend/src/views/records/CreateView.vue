@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { Play, Pause, Bird, Rabbit, Turtle, Circle, Square, Mic, Trash2, ListChecks, ALargeSmall, ScrollText } from 'lucide-vue-next'
+import { Play, Pause, Circle, Square, Mic, Trash2, ListChecks, ALargeSmall, ScrollText } from 'lucide-vue-next'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 import { useAudioStore } from '@/stores/audioStore'
 
@@ -105,7 +103,10 @@ const audioStore = useAudioStore()
             </div>
           </div>
 
-          <Button type="submit" size="sm" class="ml-auto gap-1.5" @click="audioStore.saveRecording()"> Procesar grabación </Button>
+          <Button v-if="!audioStore.loading" type="submit" size="sm" class="ml-auto gap-1.5" @click="audioStore.saveRecording()"> Procesar grabación </Button>
+          <div class="flex justify-end flex-1 mr-4" v-else>
+            <LoadingSpinner />
+          </div>
         </div>
       </div>
     </div>

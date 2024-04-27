@@ -20,6 +20,7 @@ export const useAudioStore = defineStore('audio', () => {
   const actualAudio = ref<Audio | null>(null)
   const audioSummary = ref('')
   const summaryMode = ref<string>('resumen')
+  const loading = ref(false)
 
   let interval: any = null
   const toggleRecording = () => {
@@ -82,6 +83,7 @@ export const useAudioStore = defineStore('audio', () => {
     if (!actualRecord.value) return
 
     try {
+      loading.value = true
       const fd = new FormData()
       fd.append('mode', summaryMode.value)
       fd.append('audio', actualRecord.value, 'audio.ogg')
@@ -91,12 +93,14 @@ export const useAudioStore = defineStore('audio', () => {
       console.log(sum)
       new TypeIt('#output', {
         strings: sum.split('\n'),
-        speed: 50,
+        speed: 25,
         waitUntilVisible: true
       }).go()
       actualAudio.value!.summary = sum
     } catch (error) {
       console.error(error)
+    } finally {
+      loading.value = false
     }
 
     audios.value.push(actualAudio.value as Audio)
@@ -162,6 +166,7 @@ export const useAudioStore = defineStore('audio', () => {
     audioSummary,
     visualizeSummary,
     play,
-    summaryMode
+    summaryMode,
+    loading
   }
 })
