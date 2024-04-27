@@ -82,7 +82,6 @@ export const useAudioStore = defineStore('audio', () => {
 
     try {
       const fd = new FormData()
-      fd.append('foo', 'bar')
       fd.append('audio', actualRecord.value, 'audio.ogg')
       const response = await axios.post('http://localhost:3000/api/procesar', fd)
       console.log(response)
@@ -92,6 +91,7 @@ export const useAudioStore = defineStore('audio', () => {
         speed: 50,
         waitUntilVisible: true
       }).go()
+      actualAudio.value!.summary = sum
     } catch (error) {
       console.error(error)
     }
@@ -127,6 +127,22 @@ export const useAudioStore = defineStore('audio', () => {
     recordSeconds.value = 0
   }
 
+  const visualizeSummary = (audio: Audio) => {
+    console.log(audio)
+    console.log(audio.summary)
+    audioSummary.value = audio.summary
+  }
+
+  const play = (audio: Audio) => {
+    if (!audio.isPlaying) {
+      audio.audio.play()
+      audio.isPlaying = true
+    } else {
+      audio.audio.pause()
+      audio.isPlaying = false
+    }
+  }
+
   return {
     recording,
     recordTime,
@@ -140,6 +156,8 @@ export const useAudioStore = defineStore('audio', () => {
     pauseActual,
     stopActual,
     discardActual,
-    audioSummary
+    audioSummary,
+    visualizeSummary,
+    play
   }
 })
