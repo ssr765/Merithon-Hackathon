@@ -11,9 +11,10 @@ function escuchar() {
 }
 
 function enviarAudio(blob) {
+  console.log('enviar')
   const formData = new FormData()
   formData.append('audio-file', blob)
-  fetch('http://localhost:3000/procesar', {
+  fetch('http://localhost:3000/api/procesar', {
     method: 'POST',
     body: formData
   }).then((response) => {
