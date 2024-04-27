@@ -24,20 +24,36 @@ const upload = multer({
 
 module.exports =
     router.post("/procesar", upload.any(), (req, res) => {
-
-
-
         res.json({ message: "Procesado completado" });
 
         console.log();
 
-        async function main() {
-            const transcription = await openai.audio.transcriptions.create({
-                file: fs.createReadStream('audios/' + req.files[0].filename),
-                model: "whisper-1",
+        // async function main() {
+        //     const transcription = await openai.audio.transcriptions.create({
+        //         file: fs.createReadStream('audios/' + req.files[0].filename),
+        //         model: "whisper-1",
+        //     });
+        //     return transcription;
+        //     console.log(transcription.text);
+        // }
+        // const t = main();
+        // console.log(t)
+
+        async function resumir() {
+            console.log('prova resumir')
+            let chat = "The meeting started with a discussion on the current state of the project. The team members shared their progress and any issues they were facing. The project manager then outlined the goals for the next sprint and assigned tasks to each team member. The meeting concluded with a review of the action items and a plan for the next meeting."
+            const completion = await openai.chat.completions.create({
+                messages: [{ "role": "system", "content": "You are a helpful assistant." },
+                { "role": "user", "content": "Make a summary of this meeting in a formal tone higlighting the key points: " + chat }],
+                model: "gpt-3.5-turbo",
             });
-            return transcription;
+
+            console.log(completion.choices[0], 'ssdsadasddas')
+
+
+
         }
-        const t = main();
-        console.log(t)
+
+
+        resumir()
     });
